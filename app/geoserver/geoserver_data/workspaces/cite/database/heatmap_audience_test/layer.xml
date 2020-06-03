@@ -1,0 +1,15 @@
+<layer>
+  <name>heatmap_audience_test</name>
+  <id>LayerInfoImpl--740387a:17278fc5490:-7ffd</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-1bb7134a:172582e4c1b:-56b4</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--740387a:17278fc5490:-7ffe</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+</layer>

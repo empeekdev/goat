@@ -1,179 +1,126 @@
-<?xml version="1.0" encoding="UTF-8"?><sld:StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:sld="http://www.opengis.net/sld" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" version="1.0.0">
-  <sld:NamedLayer>
-    <sld:Name>grid_100</sld:Name>
-    <sld:UserStyle>
-      <sld:Name>grid_100</sld:Name>
-      <sld:FeatureTypeStyle>
-        <sld:Name>name</sld:Name>
-                <sld:Rule>
-          <sld:Name>Very low accessibility</sld:Name>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsGreaterThan>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
-                <ogc:Literal>-1</ogc:Literal>
-              </ogc:PropertyIsGreaterThan>
-              <ogc:PropertyIsLessThan>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
-                <ogc:Literal>1</ogc:Literal>
-              </ogc:PropertyIsLessThan>
-            </ogc:And>
-          </ogc:Filter>
-          <sld:PolygonSymbolizer>
-            <sld:Fill>
-              <sld:CssParameter name="fill">#d7191c</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.4</sld:CssParameter>
-            </sld:Fill>
-            <!--
-            <sld:Stroke>
-              <sld:CssParameter name="stroke">#000001</sld:CssParameter>
-              <sld:CssParameter name="stroke-linejoin">bevel</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.00000</sld:CssParameter>
-            </sld:Stroke>
-			-->
-          </sld:PolygonSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <sld:Name>Low accessibility</sld:Name>
-          <ogc:Filter>
+<?xml version="1.0" encoding="UTF-8"?>
+<StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:se="http://www.opengis.net/se">
+  <NamedLayer>
+    <se:Name>test</se:Name>
+    <UserStyle>
+      <se:Name>test</se:Name>
+      <se:FeatureTypeStyle>
+        <se:Rule>
+          <se:Name>0 - 1</se:Name>
+          <se:Description>
+            <se:Title>0 - 1</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
               <ogc:PropertyIsGreaterThanOrEqualTo>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
+                <ogc:PropertyName>percentile_audience</ogc:PropertyName>
                 <ogc:Literal>0</ogc:Literal>
               </ogc:PropertyIsGreaterThanOrEqualTo>
               <ogc:PropertyIsLessThanOrEqualTo>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
+                <ogc:PropertyName>percentile_audience</ogc:PropertyName>
                 <ogc:Literal>1</ogc:Literal>
               </ogc:PropertyIsLessThanOrEqualTo>
             </ogc:And>
           </ogc:Filter>
-          <sld:PolygonSymbolizer>
-            <sld:Fill>
-              <sld:CssParameter name="fill">#f69053</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.4</sld:CssParameter>
-            </sld:Fill>
-            <!--
-            <sld:Stroke>
-              <sld:CssParameter name="stroke">#000001</sld:CssParameter>
-              <sld:CssParameter name="stroke-linejoin">bevel</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.00000</sld:CssParameter>
-            </sld:Stroke>
-			-->
-          </sld:PolygonSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <sld:Name>Rather low accessibility</sld:Name>
-          <ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#fde725</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>1 - 2</se:Name>
+          <se:Description>
+            <se:Title>1 - 2</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
               <ogc:PropertyIsGreaterThan>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
+                <ogc:PropertyName>percentile_audience</ogc:PropertyName>
                 <ogc:Literal>1</ogc:Literal>
               </ogc:PropertyIsGreaterThan>
               <ogc:PropertyIsLessThanOrEqualTo>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
+                <ogc:PropertyName>percentile_audience</ogc:PropertyName>
                 <ogc:Literal>2</ogc:Literal>
               </ogc:PropertyIsLessThanOrEqualTo>
             </ogc:And>
           </ogc:Filter>
-          <sld:PolygonSymbolizer>
-            <sld:Fill>
-              <sld:CssParameter name="fill">#ffdf9a</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.4</sld:CssParameter>
-            </sld:Fill>
-            <!--
-            <sld:Stroke>
-              <sld:CssParameter name="stroke">#000001</sld:CssParameter>
-              <sld:CssParameter name="stroke-linejoin">bevel</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.00000</sld:CssParameter>
-            </sld:Stroke>
-			-->
-          </sld:PolygonSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <sld:Name>Medium accessibility</sld:Name>
-          <ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#5dc962</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>2 - 3</se:Name>
+          <se:Description>
+            <se:Title>2 - 3</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
               <ogc:PropertyIsGreaterThan>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
+                <ogc:PropertyName>percentile_audience</ogc:PropertyName>
                 <ogc:Literal>2</ogc:Literal>
               </ogc:PropertyIsGreaterThan>
               <ogc:PropertyIsLessThanOrEqualTo>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
+                <ogc:PropertyName>percentile_audience</ogc:PropertyName>
                 <ogc:Literal>3</ogc:Literal>
               </ogc:PropertyIsLessThanOrEqualTo>
             </ogc:And>
           </ogc:Filter>
-          <sld:PolygonSymbolizer>
-            <sld:Fill>
-              <sld:CssParameter name="fill">#dcf09e</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.4</sld:CssParameter>
-            </sld:Fill>
-            <!--
-            <sld:Stroke>
-              <sld:CssParameter name="stroke">#000001</sld:CssParameter>
-              <sld:CssParameter name="stroke-linejoin">bevel</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.00000</sld:CssParameter>
-            </sld:Stroke>
-			-->
-          </sld:PolygonSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <sld:Name>Rather high accessibility</sld:Name>
-          <ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#20908d</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>3 - 4</se:Name>
+          <se:Description>
+            <se:Title>3 - 4</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
               <ogc:PropertyIsGreaterThan>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
+                <ogc:PropertyName>percentile_audience</ogc:PropertyName>
                 <ogc:Literal>3</ogc:Literal>
               </ogc:PropertyIsGreaterThan>
               <ogc:PropertyIsLessThanOrEqualTo>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
+                <ogc:PropertyName>percentile_audience</ogc:PropertyName>
                 <ogc:Literal>4</ogc:Literal>
               </ogc:PropertyIsLessThanOrEqualTo>
             </ogc:And>
           </ogc:Filter>
-          <sld:PolygonSymbolizer>
-            <sld:Fill>
-              <sld:CssParameter name="fill">#8acc62</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.4</sld:CssParameter>
-            </sld:Fill>
-            <!--
-            <sld:Stroke>
-              <sld:CssParameter name="stroke">#000001</sld:CssParameter>
-              <sld:CssParameter name="stroke-linejoin">bevel</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.00000</sld:CssParameter>
-            </sld:Stroke>
-			-->
-          </sld:PolygonSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <sld:Name>High accessibility</sld:Name>
-          <ogc:Filter>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#3a528b</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+        <se:Rule>
+          <se:Name>4 - 5</se:Name>
+          <se:Description>
+            <se:Title>4 - 5</se:Title>
+          </se:Description>
+          <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">
             <ogc:And>
               <ogc:PropertyIsGreaterThan>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
+                <ogc:PropertyName>percentile_audience</ogc:PropertyName>
                 <ogc:Literal>4</ogc:Literal>
               </ogc:PropertyIsGreaterThan>
               <ogc:PropertyIsLessThanOrEqualTo>
-                <ogc:PropertyName>audience_index</ogc:PropertyName>
+                <ogc:PropertyName>percentile_audience</ogc:PropertyName>
                 <ogc:Literal>5</ogc:Literal>
               </ogc:PropertyIsLessThanOrEqualTo>
             </ogc:And>
           </ogc:Filter>
-          <sld:PolygonSymbolizer>
-            <sld:Fill>
-              <sld:CssParameter name="fill">#1a9641</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.4</sld:CssParameter>
-            </sld:Fill>
-            <!--
-            <sld:Stroke>
-              <sld:CssParameter name="stroke">#000001</sld:CssParameter>
-              <sld:CssParameter name="stroke-linejoin">bevel</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.00000</sld:CssParameter>
-            </sld:Stroke>
-        	-->  
-		</sld:PolygonSymbolizer>
-        </sld:Rule>
-      </sld:FeatureTypeStyle>
-    </sld:UserStyle>
-  </sld:NamedLayer>
-</sld:StyledLayerDescriptor>
+          <se:PolygonSymbolizer>
+            <se:Fill>
+              <se:SvgParameter name="fill">#440154</se:SvgParameter>
+            </se:Fill>
+          </se:PolygonSymbolizer>
+        </se:Rule>
+      </se:FeatureTypeStyle>
+    </UserStyle>
+  </NamedLayer>
+</StyledLayerDescriptor>

@@ -355,6 +355,21 @@
       },
       {
         "type": "WMS",
+        "name": "audience",
+        "url": "/geoserver/wms",
+        "group": "accessbilityBasemaps",
+        "layers": "cite:heatmap_audience_test",
+        "viewparams": "amenities:'W10='",
+        "opacity": 0.4,
+        "queryable": false,
+        "visible": false,
+        "displayInLayerList": true,
+        "requiresPois": true,
+        "zIndex": 1,
+        "serverType": "geoserver"
+      },
+      {
+        "type": "WMS",
         "name": "population",
         "url": "/geoserver/wms",
         "group": "accessbilityBasemaps",
