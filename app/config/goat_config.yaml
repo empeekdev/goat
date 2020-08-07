@@ -176,6 +176,24 @@ DATA_REFINEMENT_VARIABLES:
         '%gesamt-%', '%gesamt %', '%gesamtsch%', '%-gymnasium%', '%gymnasium-%', '% gymnasium%','%gymnasium %', '%fachobersch%']
         discard: ['%haupt-schule%', '%mittel-schule%', '%real-schule%', '%förder-schule%', '%gesamt-schule%']
       kindergarten: ['kindergarten']
+    heatmap_config:
+      amenity_groups: 
+        kindergarten: 1
+        bus_stop: 2
+      classification:
+        group_1: 
+          sensitivity_200000: [0.1,0.4,0.5,1,2]
+          sensitivity_250000: [0.2,0.4,0.8,3,5]
+        group_2: 
+          sensitivity_200000: [0.1,0.4,0.5,1,2]
+          sensitivity_250000: [0.2,0.6,0.8,3,5]
+
+          
+          #sensitivity_300000: [0.1,0.4,0.5]
+          #sensitivity_350000: [0.1,0.4,0.5]
+          #sensitivity_400000: [0.1,0.4,0.5]
+          #sensitivity_450000: [0.1,0.4,0.5]
+
       
 
 
