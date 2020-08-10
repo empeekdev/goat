@@ -36,3 +36,13 @@ $function$;
 
 
 --SELECT heatmap('{"kindergarten":{"sensitivity":250000,"weight":1},"bus_stop":{"sensitivity":250000,"weight":1}}'::jsonb)
+/*
+SELECT g.grid_id, h.accessibility_index, COALESCE(percentile_accessibility,0)::smallint, g.percentile_population, g.geom
+FROM grid_500 g
+LEFT JOIN 
+(
+	SELECT grid_id, accessibility_index, percentile_accessibility
+	FROM heatmap_fixed_scale('{"kindergarten":{"sensitivity":250000,"weight":1},"bus_stop":{"sensitivity":250000,"weight":1}}'::jsonb)
+) h 
+ON g.grid_id = h.grid_id;
+*/
