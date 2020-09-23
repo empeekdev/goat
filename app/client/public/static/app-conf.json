@@ -133,24 +133,6 @@
         },
         {
           "type": "WMS",
-          "name": "buildings",
-          "url": "/geoserver/wms",
-          "group": "buildings_landuse",
-          "layers": "cite:buildings",
-          "opacity": 1,
-          "queryable": true,
-          "visible": false,
-          "canEdit": true,
-          "canModifyGeom": true,
-          "editDataType": "GeoJSON",
-          "editGeometry": ["Polygon", "MultiPolygon"],
-          "modifyAttributes": true,
-          "displayInLayerList": true,
-          "zIndex": 3,
-          "serverType": "geoserver"
-        },
-        {
-          "type": "WMS",
           "name": "bicycle_rate",
           "url": "/geoserver/wms",
           "group": "mobility_patterns",
@@ -212,34 +194,6 @@
           "visible": true,
           "displayInLayerList": false,
           "zIndex": 4,
-          "serverType": "geoserver"
-        },
-        {
-          "type": "WMS",
-          "name": "streetCategory",
-          "url": "/geoserver/wms",
-          "group": "streetlevelqualityLayers",
-          "layers": "cite:ways_category",
-          "opacity": 1,
-          "queryable": true,
-          "visible": false,
-          "canEdit": false,
-          "displayInLayerList": true,
-          "zIndex": 1,
-          "serverType": "geoserver"
-        },
-        {
-          "type": "WMS",
-          "name": "surface",
-          "url": "/geoserver/wms",
-          "group": "streetlevelqualityLayers",
-          "layers": "cite:ways_surface",
-          "opacity": 1,
-          "queryable": true,
-          "visible": false,
-          "canEdit": false,
-          "displayInLayerList": true,
-          "zIndex": 1,
           "serverType": "geoserver"
         },
         {
@@ -1089,19 +1043,6 @@
               {
                 "value": "pedelec",
                 "speed": 23
-              }
-            ]
-          },
-          "walking_wheelchair": {
-            "default": "standard",
-            "options": [
-              {
-                "value": "standard",
-                "speed": 3
-              },
-              {
-                "value": "electric",
-                "speed": 6
               }
             ]
           }
