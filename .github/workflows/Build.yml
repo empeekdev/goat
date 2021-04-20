@@ -15,14 +15,12 @@ jobs:
       # Github actions haven’t "before_install" analogue.
       - name: Set executive permissions 
         run: chmod ugo+x ./app/scripts/build-condition.sh
-      - name: Check for client changes
-        uses:  tj-actions/changed-files@v3.2
-        id: changed-client-files
-      # Runs a set of commands using the runners shell
-      - name: Build docker image
-        if: contains(steps.changed-client-files.all_modified_files, '.github/')
+      - name: Get file changes
+        id: get_file_changes
+        uses: trilom/file-changes-action@v1.2.3
+        with:
+          output: ' '
+      - name: Echo file changes
         run: |
-          for file in "${{ steps.changed-files.outputs.all_modified_files }}"; do
-            echo $file
-          done
-          
+          echo Changed files: ${{ steps.get_file_changes.outputs.files }}
+            
