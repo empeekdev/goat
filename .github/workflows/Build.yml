@@ -20,7 +20,7 @@ jobs:
         id: changed-client-files
       # Runs a set of commands using the runners shell
       - name: Build docker image
-        if: contains(steps.changed-client-files.all_modified_files, '*' )
+        if: contains(steps.changed-client-files.all_modified_files, '.github/')
         run: |
           for file in "${{ steps.changed-files.outputs.all_modified_files }}"; do
             echo $file
