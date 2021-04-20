@@ -17,9 +17,10 @@ jobs:
       - name: Set executive permissions 
         run: chmod ugo+x ./app/scripts/build-condition.sh
 
+
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
           sudo docker run --name hello_world hello_world
           
