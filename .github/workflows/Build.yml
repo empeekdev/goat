@@ -17,7 +17,7 @@ jobs:
         run: chmod ugo+x ./app/scripts/build-condition.sh
       - name: Get file changes
         id: get_file_changes
-        uses: trilom/file-changes-action@v1.2.3
+        uses: trilom/file-changes-action@v1.2.4
         with:
           output: ' '
       - name: Echo file changes
