@@ -3,10 +3,7 @@ name: CI
 on:
   push:
     branches: [ ffb,bogota,hasenbergl,muenchen,freising,test_travis,github-actions ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
+    
 jobs:
   build:
     if: github.event_name == 'pull_request' 
