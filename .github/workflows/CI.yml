@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: [ ffb,bogota,hasenbergl,muenchen,freising,test_travis,github-actions ]
+
     
 jobs:
   build:
