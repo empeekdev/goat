@@ -21,7 +21,7 @@ jobs:
         with:
           output: ' '
       - name: Echo file changes
-        if: contains(steps.get_file_changes.outputs.files, '.github/')
+        if: contains(steps.get_file_changes.outputs.files, '.dockerignore')
         run: |
           echo Changed files: ${{ steps.get_file_changes.outputs.files }}
             
