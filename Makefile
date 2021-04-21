@@ -10,13 +10,15 @@ endif
 SHELL=/bin/bash
 NAMESPACE:=development
 DOMAIN:=demo.open-accessibility.org
-PROJECT:=goatcommunity
+PROJECT:=fufelok
 COMPONENT:=api
 VERSION?=$(shell git rev-parse HEAD)
 REGISTRY?=docker.io
 DOCKER_IMAGE?=$(REGISTRY)/$(PROJECT)/$(COMPONENT):$(VERSION)
 POSTGIS_DOCKER_IMAGE?=$(REGISTRY)/$(PROJECT)/db:$(VERSION)
 K8S_CLUSTER?=goat
+DOCKER_USERNAME=$(sops -d --extract '["dockerhub"]["login"]' goat.yml)
+DOCKER_PASSWORD=$(sops -d --extract '["dockerhub"]["password"]' goat.yml)
 
 # Build and test directories
 CWD:=$(shell pwd)
