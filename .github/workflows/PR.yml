@@ -1,4 +1,4 @@
-name: Build
+name: PR
 
 on:
   pull_request:
@@ -30,7 +30,7 @@ jobs:
         run: make build-docker-image -e COMPONENT=api
       - name: Build changed cron
         if: contains(steps.get_file_changes.outputs.files, 'app/cron')
-        run: make build-docker-image -e COMPONENT=cron
+        run: make build-docker-image-app-context -e COMPONENT=cron
       - name: Build changed database
         if: contains(steps.get_file_changes.outputs.files, 'app/database')
         run: make build-database-docker-image
