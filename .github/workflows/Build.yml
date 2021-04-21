@@ -15,22 +15,14 @@ jobs:
       # Github actions haven’t "before_install" analogue.
       - name: Set executive permissions 
         run: chmod ugo+x ./app/scripts/build-condition.sh
-      - name: Get file changes
+      - name: Get changed files 
         id: get_file_changes
         uses: trilom/file-changes-action@v1.2.4
         with:
           output: ' '
-      - name: Echo file changes
-        if: contains(steps.get_file_changes.outputs.files, '.github/')
-        run: |
-          echo Changed files: ${{ steps.get_file_changes.outputs.files }}
-      - name: Echo file changes btw
-        if: contains(steps.get_file_changes.outputs.files, '.docker')
-        run: |
-          echo Changed files: ${{ steps.get_file_changes.outputs.files }}
-      - name: Echo file changes fyi
-        if: contains(steps.get_file_changes.outputs.files, 'Make')
-        run: |
-          echo Changed files: ${{ steps.get_file_changes.outputs.files }}
+      - name: Build changed client
+        if: contains(steps.get_file_changes.outputs.files, 'app/client')
+        run: make build-docker-image -e COMPONENT=client
+          
       
             
