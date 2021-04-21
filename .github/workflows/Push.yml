@@ -7,6 +7,9 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      AWS_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}"
     steps:
       - uses: actions/checkout@v2
       - name: Get changed files 
@@ -19,13 +22,6 @@ jobs:
           wget https://github.com/mozilla/sops/releases/download/v3.7.1/sops_3.7.1_amd64.deb
           sudo dpkg -i sops_3.7.1_amd64.deb
           sops -v
-      - name: Set AWS environments
-        run: |
-          mkdir ~/.aws
-          echo "[default]">> ~/.aws/credentials
-          echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}"> ~/.aws/credentials
-          echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}"> ~/.aws/credentials
-          cat ~/.aws/credentials
       - name: Release changed client
         #Instead of using build-condition.sh script I used github action, defined above. It allow to check for changed files and then parse this list.
         #Github action doesn’t have TRAVIS_COMMIT_RANGE alternative, so there was two way to resolve this problem: write own script to detect changed files or use gh action from marketplace
