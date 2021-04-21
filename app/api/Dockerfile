@@ -1,5 +1,6 @@
 FROM goatcommunity/flask-api-base
 
+
 WORKDIR /usr/src/app
 COPY requirements.txt ./
 COPY *-requires.txt ./

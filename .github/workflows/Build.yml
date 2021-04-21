@@ -23,6 +23,15 @@ jobs:
       - name: Build changed client
         if: contains(steps.get_file_changes.outputs.files, 'app/client')
         run: make build-docker-image -e COMPONENT=client
+      - name: Build changed api
+        if: contains(steps.get_file_changes.outputs.files, 'app/api')
+        run: make build-docker-image -e COMPONENT=api
+      - name: Build changed cron
+        if: contains(steps.get_file_changes.outputs.files, 'app/cron')
+        run: make build-docker-image -e COMPONENT=cron
+      - name: Build changed database
+        if: contains(steps.get_file_changes.outputs.files, 'app/database')
+        run: make build-docker-image -e COMPONENT=database
           
       
             
