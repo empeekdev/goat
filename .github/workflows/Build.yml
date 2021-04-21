@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  pull_request:
+    branches: [ ffb,bogota,hasenbergl,muenchen,freising,test_travis,github-actions ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Github actions haven’t "before_install" analogue.
+      - name: Set executive permissions 
+        run: chmod ugo+x ./app/scripts/build-condition.sh
+      - name: Get changed files 
+        id: get_file_changes
+        uses: trilom/file-changes-action@v1.2.4
+        with:
+          output: ' '
+      - name: Show changed files
+        run: echo ${{steps.get_file_changes.outputs.files}}
+      - name: Build changed client
+        if: contains(steps.get_file_changes.outputs.files, 'app/client')
+        run: make build-docker-image -e COMPONENT=client
+      - name: Build changed api
+        if: contains(steps.get_file_changes.outputs.files, 'app/api')
+        run: make build-docker-image -e COMPONENT=api
+      - name: Build changed cron
+        if: contains(steps.get_file_changes.outputs.files, 'app/cron')
+        run: make build-docker-image -e COMPONENT=cron
+      - name: Build changed database
+        if: contains(steps.get_file_changes.outputs.files, 'app/database')
+        run: make build-docker-image -e COMPONENT=database
