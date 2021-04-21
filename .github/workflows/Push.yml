@@ -15,7 +15,8 @@ jobs:
         with:
           output: ' '
       - name: Print commit message
-        run: echo ${{ github.event.head_commit.message }}
+        if: contains(github.event.head_commit.message, 'blabla')
+        run: echo OK!
       - name: Release changed client
         if: contains(steps.get_file_changes.outputs.files, 'app/client')
         run: make release-docker-image -e COMPONENT=client
