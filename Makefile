@@ -17,7 +17,9 @@ REGISTRY?=docker.io
 DOCKER_IMAGE?=$(REGISTRY)/$(PROJECT)/$(COMPONENT):$(VERSION)
 POSTGIS_DOCKER_IMAGE?=$(REGISTRY)/$(PROJECT)/db:$(VERSION)
 K8S_CLUSTER?=goat
-DOCKER_USERNAME=$(shell sops -d --extract '["dockerhub"]["login"]' goat.yml)
+AWS_ACCESS_KEY_ID=$(shell echo ${AWS_ACCESS_KEY_ID} )
+AWS_SECRET_ACCESS_KEY=$(shell echo ${AWS_SECRET_ACCESS_KEY} )
+DOCKER_USERNAME=$(shell  sops -d --extract '["dockerhub"]["login"]' goat.yml)
 DOCKER_PASSWORD=$(shell sops -d --extract '["dockerhub"]["password"]' goat.yml)
 
 # Build and test directories
