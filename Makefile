@@ -17,8 +17,8 @@ REGISTRY?=docker.io
 DOCKER_IMAGE?=$(REGISTRY)/$(PROJECT)/$(COMPONENT):$(VERSION)
 POSTGIS_DOCKER_IMAGE?=$(REGISTRY)/$(PROJECT)/db:$(VERSION)
 K8S_CLUSTER?=goat
-DOCKER_USERNAME=$(shell sops -d --extract '["dockerhub"]["login"]' goat.yml)
-DOCKER_PASSWORD=$(shell sops -d --extract '["dockerhub"]["password"]' goat.yml)
+# DOCKER_USERNAME=$(shell sops -d --extract '["dockerhub"]["login"]' goat.yml)
+# DOCKER_PASSWORD=$(shell sops -d --extract '["dockerhub"]["password"]' goat.yml)
 
 # Build and test directories
 CWD:=$(shell pwd)
