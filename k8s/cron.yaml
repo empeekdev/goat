@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cron-config
+  namespace: development
+  labels:
+    app: cron
+data:
+  POSTGRES_DBNAME: 
+  POSTGRES_USER: 
+  POSTGRES_PASS: 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goat-cron
+  namespace: development
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goat-cron
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 50%
+  minReadySeconds: 15
+  template:
+    metadata:
+      labels:
+        app: goat-cron
+    spec:
+      containers:
+        - image: docker.io/goatcommunity/api:3d48b7bd2a14000b83529778763de203cff21ac8
+          imagePullPolicy: IfNotPresent
+          name: goat-cron
+          envFrom:
+            - configMapRef:
+                name: cron-config
+          volumeMounts:
+            - mountPath: /opt/config/db
+              name: goat-config
+      volumes:
+        - name: goat-config
+          configMap:
+            name: goat-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: goat-config
+  namespace: development
+data:
+  db.yaml: |
+    HOST: "postgres.development.svc.cluster.local"
+    PORT: 5432
+    DB_NAME: ""
+    USER: ""
+    PASSWORD: ""
+  spaces.yaml: |
+    key_id: ""
+    secret_access_key: ""

@@ -1,0 +1,107 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: development
+  labels:
+    app: postgres
+data:
+  POSTGRES_DBNAME: 
+  POSTGRES_USER: 
+  POSTGRES_PASS: 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pv-claim
+  namespace: development
+  labels:
+    app: postgres
+spec:
+  storageClassName: do-block-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: development
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: docker.io/goatcommunity/db:3d48b7bd2a14000b83529778763de203cff21ac8
+          imagePullPolicy: IfNotPresent
+          # lifecycle:
+          #   postStart:
+          #     exec:
+          #       command: [/bin/sh, -c, python3, /opt/setup_goat.py, -t, new_setup]
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+            - mountPath: /opt/config/db
+              name: goat-config
+            - mountPath: /opt/data
+              name: postgredb
+              subPath: development
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+        - name: goat-config
+          configMap:
+            name: goat-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: development
+  labels:
+    app: postgres
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+  selector:
+    app: postgres
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: goat-config
+  namespace: development
+data:
+  db.yaml: |
+    HOST: "postgres.development.svc.cluster.local"
+    PORT: 5432
+    DB_NAME: ""
+    USER: ""
+    PASSWORD: ""
+  spaces.yaml: |
+    key_id: ""
+    secret_access_key: ""
