@@ -23,7 +23,7 @@ jobs:
       - name: Release changed client
         if: contains(steps.get_file_changes.outputs.files, 'app/cron') || contains(github.event.head_commit.message, 'blabla')
         run: make release-docker-image-app-context -e COMPONENT=cron
-      - name: Release changed client
+      - name: Release changed  client
         if: contains(steps.get_file_changes.outputs.files, 'app/database') || contains(github.event.head_commit.message, 'blabla')
         run: make release-database-docker-image
 
