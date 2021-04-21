@@ -24,5 +24,13 @@ jobs:
         if: contains(steps.get_file_changes.outputs.files, '.github/')
         run: |
           echo Changed files: ${{ steps.get_file_changes.outputs.files }}
+      - name: Echo file changes btw
+        if: contains(steps.get_file_changes.outputs.files, '.docker')
+        run: |
+          echo Changed files: ${{ steps.get_file_changes.outputs.files }}
+      - name: Echo file changes fyi
+        if: contains(steps.get_file_changes.outputs.files, 'Make')
+        run: |
+          echo Changed files: ${{ steps.get_file_changes.outputs.files }}
       
             
