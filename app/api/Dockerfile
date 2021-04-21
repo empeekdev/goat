@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 COPY *-requires.txt ./
 
+
 RUN pip install --upgrade pip setuptools \
     && pip install --user --no-cache-dir --no-warn-script-location -r requirements.txt
 
