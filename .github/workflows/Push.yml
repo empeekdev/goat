@@ -42,10 +42,14 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      NAMESPACE: ${{ GITHUB_REF#refs/heads/ }}
-      DOMAIN: ${{ GITHUB_REF#refs/heads/ }}.open-accessibility.org
+      NAMESPACE: ${GITHUB_REF##*/}
+      DOMAIN: ${GITHUB_REF##*/}.open-accessibility.org
     steps:
       - uses: actions/checkout@v2
+      - name: update env
+        run: |
+          echo "::set-env name=NAMESPACE::$(echo ${GITHUB_REF#refs/heads/})"
+          echo $NAMESPACE
       - name: Get changed files 
         id: get_file_changes
         uses: trilom/file-changes-action@v1.2.4
