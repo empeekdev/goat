@@ -42,8 +42,8 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      NAMESPACE: ${GITHUB_REF##*/}
-      DOMAIN: ${GITHUB_REF##*/}.open-accessibility.org
+      NAMESPACE: ${{ github.ref }}
+      DOMAIN: ${{ github.ref }}.open-accessibility.org
     steps:
       - uses: actions/checkout@v2
       - name: Get changed files 
