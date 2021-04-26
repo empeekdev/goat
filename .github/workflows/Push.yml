@@ -10,8 +10,6 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     steps:
       - uses: actions/checkout@v2
       - name: Get changed files 
@@ -39,5 +37,41 @@ jobs:
       - name: Release changed database
         if: contains(steps.get_file_changes.outputs.files, 'app/database') || contains(github.event.head_commit.message, 'blabla')
         run: make release-database-docker-image
-
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      NAMESPACE: ${GITHUB_REF##*/}
+      DOMAIN: ${GITHUB_REF##*/}.open-accessibility.org
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get changed files 
+        id: get_file_changes
+        uses: trilom/file-changes-action@v1.2.4
+        with:
+          output: ' '
+      - name: Install tools
+        run: |
+          wget https://github.com/mozilla/sops/releases/download/v3.7.1/sops_3.7.1_amd64.deb
+          sudo dpkg -i sops_3.7.1_amd64.deb
+          sops -v 
+      - name: Echo domain
+        run: echo $DOMAIN
+      - name: Deploy changed client
+        #Instead of using build-condition.sh script I used github action, defined above. It allow to check for changed files and then parse this list.
+        #Github action doesn’t have TRAVIS_COMMIT_RANGE alternative, so there was two way to resolve this problem: write own script to detect changed files or use gh action from marketplace
+        #As an alternative for TRAVIS_COMMIT_MESSAGE I used "contains(github.event.head_commit.message, 'blabla')"
+        if: contains(steps.get_file_changes.outputs.files, 'app/client') || contains(github.event.head_commit.message, 'blabla')
+        run: make deploy -e COMPONENT=client -e NAMESPACE=$NAMESPACE -e DOMAIN=$DOMAIN
+      - name: Deploy changed api
+        if: contains(steps.get_file_changes.outputs.files, 'app/api') || contains(github.event.head_commit.message, 'blabla')
+        run: make deploy -e COMPONENT=api -e NAMESPACE=$NAMESPACE -e DOMAIN=$DOMAIN
+      - name: Deploy changed cron
+        if: contains(steps.get_file_changes.outputs.files, 'app/cron') || contains(github.event.head_commit.message, 'blabla')
+        run: make deploy -e COMPONENT=cron -e NAMESPACE=$NAMESPACE -e DOMAIN=$DOMAIN
+      - name: Deploy changed database
+        if: contains(steps.get_file_changes.outputs.files, 'app/database') || contains(github.event.head_commit.message, 'blabla')
+        run: make release-database-docker-image -e NAMESPACE=$NAMESPACE -e DOMAIN=$DOMAIN
+      
       

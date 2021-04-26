@@ -10,15 +10,13 @@ endif
 SHELL=/bin/bash
 NAMESPACE:=development
 DOMAIN:=demo.open-accessibility.org
-PROJECT:=fufelok
+PROJECT:=goatcommunity
 COMPONENT:=api
 VERSION?=$(shell git rev-parse HEAD)
 REGISTRY?=docker.io
 DOCKER_IMAGE?=$(REGISTRY)/$(PROJECT)/$(COMPONENT):$(VERSION)
 POSTGIS_DOCKER_IMAGE?=$(REGISTRY)/$(PROJECT)/db:$(VERSION)
 K8S_CLUSTER?=goat
-# DOCKER_USERNAME=$(shell sops -d --extract '["dockerhub"]["login"]' goat.yml)
-# DOCKER_PASSWORD=$(shell sops -d --extract '["dockerhub"]["password"]' goat.yml)
 
 # Build and test directories
 CWD:=$(shell pwd)
@@ -58,11 +56,12 @@ setup-general-utils:
 # target: make setup-kube-config
 .PHONY: setup-kube-config
 setup-kube-config:
+	sops -d k8s/config-encrypted > k8s/config
 	mkdir -p ${HOME}/.kube/
 	cp k8s/config ${HOME}/.kube/config
-	$(KCTL) config set "clusters.goat.server" "${KUBE_CLUSTER_SERVER}"
-	$(KCTL) config set "clusters.goat.certificate-authority-data" "${KUBE_CLUSTER_CERTIFICATE}"
-	$(KCTL) config set "users.goat-admin.token" "${KUBE_CLIENT_TOKEN}"
+#	$(KCTL) config set "clusters.goat.server" "${KUBE_CLUSTER_SERVER}"
+#$(KCTL) config set "clusters.goat.certificate-authority-data" "${KUBE_CLUSTER_CERTIFICATE}"
+#$(KCTL) config set "users.goat-admin.token" "${KUBE_CLIENT_TOKEN}"
 
 # target: make setup-nginx
 .PHONY: setup-nginx
@@ -73,10 +72,15 @@ setup-nginx: setup-general-utils
 	$(HELM) install cert-manager --namespace cert-manager jetstack/cert-manager
 	$(KCTL) apply -f k8s/letscrypt.yaml
 
+# target: make docker-pass-setup
+.PHONY: docker-pass-setup
+docker-pass-setup:
+	sops -d docker.sops > docker
+
 # target: make docker-login
 .PHONY: docker-login
-docker-login:
-	$(DOCKER) login -u $(DOCKER_USERNAME) -p $(DOCKER_PASSWORD) $(REGISTRY)
+docker-login: docker-pass-setup
+	cat docker | $(DOCKER) login -u $(DOCKER_USERNAME) --password-stdin $(REGISTRY)
 
 # target: make build-docker-image -e VERSION=some_git_sha_comit -e COMPONENT=api|client|geoserver|print|mapproxy
 .PHONY: build-docker-image
@@ -123,9 +127,14 @@ build-k8s:
 # target: make deploy-postgres-server
 .PHONY: deploy-postgres-server
 deploy-postgres-server: setup-kube-config build-k8s
-	$(KCTL) config use-context goat && $(KCTL) apply -f k8s/postgres.yaml
+	sops -d k8s/postgres-secrets.sops.yaml > k8s/postgres-secrets.yaml && $(KCTL) config use-context goat && $(KCTL) apply -f k8s/postgres-secrets.yaml &&  $(KCTL) apply -f k8s/postgres.yaml
 
 # target: make deploy -e COMPONENT=api|client|geoserver|print|mapproxy
 .PHONY: deploy
 deploy: setup-kube-config build-k8s
-	$(KCTL) config use-context goat && $(KCTL) apply -f k8s/$(COMPONENT).yaml
+	if [[ "$(COMPONENT)" == "api" || "$(COMPONENT)" == "cron" ]]; then \
+	   sops -d k8s/$(COMPONENT)-secrets.sops.yaml > k8s/$(COMPONENT)-secrets.yaml && \
+	   $(KCTL) config use-context goat && $(KCTL) apply -f k8s/$(COMPONENT)-secrets.yaml && $(KCTL) apply -f k8s/$(COMPONENT).yaml; \
+	else \
+	   $(KCTL) config use-context goat && $(KCTL) apply -f k8s/$(COMPONENT).yaml; \
+	fi
