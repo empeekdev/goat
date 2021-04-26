@@ -42,14 +42,13 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      NAMESPACE: ${GITHUB_REF##*/}
-      DOMAIN: ${GITHUB_REF##*/}.open-accessibility.org
     steps:
       - uses: actions/checkout@v2
       - name: update env
         run: |
-          echo ::set-output name=NAMESPACE::$(echo ${GITHUB_REF#refs/heads/})
-          echo $NAMESPACE
+          export NAMESPACE=${GITHUB_REF##refs/heads/}
+          export DOMAIN=${GITHUB_REF##refs/heads/}.open-accessibility.org
+          echo $NAMESPACE $DOMAIN
       - name: Get changed files 
         id: get_file_changes
         uses: trilom/file-changes-action@v1.2.4
@@ -67,15 +66,15 @@ jobs:
         #Github action doesn’t have TRAVIS_COMMIT_RANGE alternative, so there was two way to resolve this problem: write own script to detect changed files or use gh action from marketplace
         #As an alternative for TRAVIS_COMMIT_MESSAGE I used "contains(github.event.head_commit.message, 'blabla')"
         if: contains(steps.get_file_changes.outputs.files, 'app/client') || contains(github.event.head_commit.message, 'blabla')
-        run: make deploy -e COMPONENT=client -e NAMESPACE=$NAMESPACE -e DOMAIN=$DOMAIN
+        run: make deploy -e COMPONENT=client -e NAMESPACE=${GITHUB_REF##refs/heads/} -e DOMAIN=${GITHUB_REF##refs/heads/}.open-accessibility.org
       - name: Deploy changed api
         if: contains(steps.get_file_changes.outputs.files, 'app/api') || contains(github.event.head_commit.message, 'blabla')
-        run: make deploy -e COMPONENT=api -e NAMESPACE=$NAMESPACE -e DOMAIN=$DOMAIN
+        run: make deploy -e COMPONENT=api -e NAMESPACE=${GITHUB_REF##refs/heads/} -e DOMAIN=${GITHUB_REF##refs/heads/}.open-accessibility.org
       - name: Deploy changed cron
         if: contains(steps.get_file_changes.outputs.files, 'app/cron') || contains(github.event.head_commit.message, 'blabla')
-        run: make deploy -e COMPONENT=cron -e NAMESPACE=$NAMESPACE -e DOMAIN=$DOMAIN
+        run: make deploy -e COMPONENT=cron -e NAMESPACE=${GITHUB_REF##refs/heads/} -e DOMAIN=${GITHUB_REF##refs/heads/}.open-accessibility.org
       - name: Deploy changed database
         if: contains(steps.get_file_changes.outputs.files, 'app/database') || contains(github.event.head_commit.message, 'blabla')
-        run: make release-database-docker-image -e NAMESPACE=$NAMESPACE -e DOMAIN=$DOMAIN
+        run: make release-database-docker-image -e NAMESPACE=${GITHUB_REF##refs/heads/} -e DOMAIN=${GITHUB_REF##refs/heads/}.open-accessibility.org
       
       
